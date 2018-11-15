@@ -72,8 +72,17 @@ router.put('/pizza/:id', function(req, res) {
   };
   MongoClient.connect(url, function(err, client) {
     const collection = client.db("pizzas").collection("pizza");
-    collection.findOneAndReplace( {_id:new ObjectID(id)},
-    json);
+    collection.findOneAndReplace( {"_id":{$eq:new ObjectID(id)}},
+    { "_id": new ObjectID(id), "tipo": req.body.tipo, "size": req.body.size, "porc": req.body.porc, "queso": req.body.queso}, function(err, documento){
+      if (err)
+          res.send(500);
+        else {
+          res.send({
+            data: documento,
+            status: 200
+          });
+        }
+    });
     client.close();
  });
 });
