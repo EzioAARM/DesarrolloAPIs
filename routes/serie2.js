@@ -30,12 +30,21 @@ router.post('/pizza', function(req, res) {
     res.send(200);
 });
 
-router.put('/pizza', function(req, res) {
-
+router.put('/pizza/:id', function(req, res) {
+  var json = {
+    tipoMasa: req.body.tipo,
+    tamanio: req.body.size,
+    porciones: req.body.porc,
+    queso: req.body.queso
+  };
+  array.pizza[req.params.id] = json;
+  pos++;
+  res.send(200);
 });
 
-router.delete('/pizza', function(req, res) {
-
+router.delete('/pizza/:id', function(req, res) {
+array.pizza.splice(req.params.id, 1);
+res.send(200);
 });
 
 
